@@ -77,7 +77,7 @@
   </style>
 </head>
 <body>
-  <h1>🎲 Tajomné žrebovanie</h1>
+  <h1>🌪 Tajomné žrebovanie</h1>
   <p>Vyber si jednu z obálok a zisti svoju výzvu. Každá voľba je finálna!</p>
   <div class="buttons">
     <button onclick="reveal(0)" id="btn0">Obálka 1</button>
@@ -107,7 +107,7 @@
     const tasks = [
       "Zaspievaj refrén svojej obľúbenej pesničky 🎤",
       "Vymysli slogan na svadbu v štýle teleshoppingu 📺",
-      "Imituj známeho politika počas 10 sekúnd 🎭",
+      "Imituj známeho politika počas 10 sekúnd 🎝",
       "Povedz niečo pekné o osobe, ktorá ti tento odkaz poslala 💬",
       "Natoč 5-sekundové video, ako tancuješ bez hudby 🕺",
       "Zarecituj ľubovoľnú báseň ako keby si bol na svadbe 📜",
@@ -128,6 +128,7 @@
     let used = false;
     let currentIndex = null;
     let usedEnvelopes = JSON.parse(localStorage.getItem("usedEnvelopes") || "[]");
+    let loadedClues = [];
 
     function reveal(index) {
       if (used || usedEnvelopes.includes(index)) return;
@@ -174,12 +175,18 @@
       localStorage.setItem("savedClues", JSON.stringify(loadedClues));
     }
 
-    let loadedClues = [];
+    function renderClueOnly(clue) {
+      const clueList = document.getElementById("clues");
+      const li = document.createElement("li");
+      li.textContent = clue;
+      clueList.appendChild(li);
+    }
+
     window.onload = () => {
       const stored = localStorage.getItem("savedClues");
       if (stored) {
         loadedClues = JSON.parse(stored);
-        loadedClues.forEach(clue => addClueToList(clue));
+        loadedClues.forEach(clue => renderClueOnly(clue));
       }
       usedEnvelopes.forEach(index => {
         const btn = document.getElementById(`btn${index}`);
